@@ -1,0 +1,88 @@
+<html>
+<head>
+<title> fix this pic </title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- App -->
+    <div id="app">
+
+        <!-- home screen -->
+        <div id="home-screen">
+
+            <!-- entry screen -->
+            <div id="entry">
+
+                <ul>
+                    <li id="game-start"> 
+                        <div>Start</div> 
+                    </li>
+                    <li id="show-settings"> 
+                        <div>Settings</div> 
+                    </li>
+                    <li id="show-credits"> 
+                        <div>Credits</div> 
+                    </li>
+                </ul>
+            </div>
+
+            <!-- settings screen -->
+            <div id="settings">
+
+            </div>
+
+            <!-- credits screen -->
+            <div id="credits">
+            </div>
+        </div>
+
+        <!-- game screen -->
+        <div id="game-screen">
+
+            <div class="head">
+
+                <!-- records & stats -->
+                <div class="records">
+
+                    <!-- level timer -->
+                    <div id="timer">
+                        level Timer : 00:00
+                    </div>
+
+                    <!-- total time-->
+                    <div id="total">
+                        Game Timer : 00:00
+                    </div>
+
+                    <!-- level number -->
+                    <div id="level-number">
+                        Level : 01
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="body">
+
+                <!-- playing field-->
+                <div class="player-field">
+
+                    <!-- image canvas -->
+                    <canvas id="game-canvas"></canvas>
+                </div>
+        
+                <!-- comparison field-->
+                <div class="image-field">
+
+                        <!-- true image -->
+                        <div id="true-image"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="app.bundle.js"></script>
+</body>
+</html>
