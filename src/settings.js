@@ -15,10 +15,10 @@ module.exports = {
     // default :drag & drop
     // other modes : point and click
     switch_mode: 'drag n drop',
-    
+
     // blind mode
     // default: false
-    // turn true to disable comparison image 
+    // turn true to disable comparison image
     blind_mode: false,
 
     // game difficulties

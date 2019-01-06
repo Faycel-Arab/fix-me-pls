@@ -1,11 +1,11 @@
-/** 
+/**
  * @name screen
  * @package utility.js
  * @author Arab Faycel
  */
 
-import * as H from './utility'; 
-import Game from './game'
+import * as H from './utility';
+import Game from './game';
 
 export default class Screen{
 
@@ -18,13 +18,13 @@ export default class Screen{
         this.game = document.querySelector("#game-screen");
     }
 
-    /** 
+    /**
      * @memberof screen
      * @description display home screen
      */
     static showHome(){
 
-        // hide game screen 
+        // hide game screen
         const game = H.ele('#game-screen');
         H.hide( game );
 
@@ -33,7 +33,7 @@ export default class Screen{
         H.display( home );
     }
 
-    /** 
+    /**
      * @memberof screen
      * @description display entry screen
      */
@@ -57,7 +57,7 @@ export default class Screen{
 
     }
 
-    /** 
+    /**
      * @memberof screen
      * @description display game screen
      */
@@ -67,15 +67,15 @@ export default class Screen{
         const home = H.ele('#home-screen');
         H.hide( home );
 
-        // display game screen 
+        // display game screen
         const game = H.ele('#game-screen');
         H.display( game );
     }
 
-    /** 
+    /**
      * @memberof screen
-     * @param {integer} val 
-     * @description level timer view update 
+     * @param {integer} val
+     * @description level timer view update
      */
     static updateLvlTimer( val ){
 
@@ -83,10 +83,10 @@ export default class Screen{
         lvlTimer.innerHTML = "Level Timer : " + H.makeTime( val );
     }
 
-    /** 
+    /**
      * @memberof screen
-     * @param {integer} val 
-     * @description total timer view update 
+     * @param {integer} val
+     * @description total timer view update
      */
     static updateTotalTimer( val ){
 
@@ -94,17 +94,14 @@ export default class Screen{
         totalTimer.innerHTML = "Game Timer : " + H.makeTime( val );
     }
 
-    /** 
+    /**
      * @memberof screen
-     * @param {integer} val 
-     * @description level number view update 
+     * @param {integer} val
+     * @description level number view update
      */
     static updateLvlNumber( val ){
 
         const lvlNumber = H.ele('#level-number');
         lvlNumber.innerHTML = "Level : " + val;
     }
-
-    
-
 }

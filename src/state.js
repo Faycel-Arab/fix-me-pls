@@ -49,7 +49,7 @@ module.exports = {
             let self = this;
 
             let loop = setInterval( () => {
-                
+
                 // add a tick
                 self.lvlTimer++;
                 

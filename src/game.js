@@ -1,11 +1,11 @@
 
-/** 
+/**
  * @name game
  * @package utility.js
  * @author Arab Faycel
  */
 
-import * as H from './utility'; 
+import * as H from './utility';
 import Screen from './screen';
 import * as State from './state';
 import * as Settings from './settings';
@@ -22,7 +22,7 @@ export default class Game{
         this.game = document.querySelector("#game-game");
     }
 
-    /** 
+    /**
      * @memberof game
      * @description starts the game
      */
@@ -41,18 +41,14 @@ export default class Game{
             // draw image to canvas
             Canvas.drawImg( image );
 
-            
-
             // display game screen
             Screen.showGame();
-            
+
             // start level timer
             State.Timer.startLvlTimer();
         }
 
         image.src = Settings.images[ State.level - 1 ];
-
-        
     }
 
 

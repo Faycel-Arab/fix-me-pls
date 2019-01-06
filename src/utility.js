@@ -21,7 +21,7 @@ module.exports = {
         if( this.isDOM(ele))
             ele.style.display = 'block';
 
-        else 
+        else
             console.error('Error while trying to display a non DOM object');
     },
 
@@ -35,12 +35,12 @@ module.exports = {
         if( ele && typeof ele.style.display === "string")
             ele.style.display = 'none';
 
-        else 
+        else
             console.error('Error while trying to hide a non DOM object');
     },
 
     /**
-     * check if a var is a DOM  
+     * check if a var is a DOM
      */
     isDOM: function( a ){
 
@@ -61,7 +61,7 @@ module.exports = {
         // add a leading zero if a single digit
         if( mm.toString().length === 1)
             mm = "0"+mm;
-            
+
         // calculate seconds
         let ss = a%60;
         // add a leading zero if a single digit
