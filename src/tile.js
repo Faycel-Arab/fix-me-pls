@@ -23,13 +23,6 @@ class Tile {
     this._2D_CTX = _2D_CTX;
   }
 
-  setDrawPositions(x, y) {
-    this.drawPosX   = x;
-    this.drawPosY   = y;
-    this.dockedPosX = x;
-    this.dockedPosY = y;
-  }
-
   move(x, y) {
     this.drawPosX   += x;
     this.drawPosY   += y;
