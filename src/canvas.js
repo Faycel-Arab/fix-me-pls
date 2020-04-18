@@ -8,7 +8,6 @@ import * as Settings from './settings';
 import Tile from './tile';
 
 module.exports = {
-
   // canvas
   canvas: undefined,
 
@@ -39,11 +38,12 @@ module.exports = {
     selectedTile: undefined,
     mouseX: undefined,
     mouseY: undefined,
+    isMoving: false,
   },
 
   /**
-     * select canvas
-     */
+   * select canvas
+   */
   set() {
     // select canvas & context
     this.canvas = H.ele('#game-canvas');
@@ -58,10 +58,10 @@ module.exports = {
   },
 
   /**
-     * @param {image} img
-     * draw a shuffled image to canvas
-     * append comparison image to true image
-     */
+   * @param {image} img
+   * draw a shuffled image to canvas
+   * append comparison image to true image
+   */
   drawImg(img) {
     // cache image for global use ( global mean the canvas obj)
     this.image = img;
@@ -91,10 +91,10 @@ module.exports = {
   },
 
   /**
-     * @param {integer} width
-     * @param {integer} height
-     * set canvas width and height
-     */
+   * @param {integer} width
+   * @param {integer} height
+   * set canvas width and height
+   */
   setDimensions(img) {
     // compute image ratio
     const ratio = this.getImageRatio(img);
@@ -121,10 +121,10 @@ module.exports = {
   },
 
   /**
-     * @param {img} image
-     * @return {integer} ratio
-     * compute and return image ratio
-     */
+   * @param {img} image
+   * @return {integer} ratio
+   * compute and return image ratio
+   */
   getImageRatio(img) {
     const w = img.width; // image width
     const h = img.height; // image height
@@ -134,9 +134,9 @@ module.exports = {
   },
 
   /**
-     * @param {image} img
-     * append an image to the true image element
-     */
+   * @param {image} img
+   * append an image to the true image element
+   */
   appendImg(img) {
     // get source
     const source = img.src;
@@ -155,8 +155,8 @@ module.exports = {
   },
 
   /**
-     * generate shuffled tiles array
-     */
+   * generate shuffled tiles array
+   */
   generateTiles(img) {
     // cache this for extra scope use
     const self = this;
@@ -176,18 +176,24 @@ module.exports = {
     // populate tiles
     for (let y = 0; y < a[1]; y++) {
       for (let x = 0; x < a[0]; x++) {
-        this.tiles.push(new Tile(self.ctx, img, {
-          positionX: w * x,
-          positionY: h * y,
-          width: w,
-          height: h,
-          XClipPoint: img.width * prp(w * x, 'x') / 100,
-          XClipPointEnd: img.width * prp(w * x + w, 'x') / 100 - img.width * prp(w * x, 'x') / 100,
-          YClipPoint: img.height * prp(h * y, 'y') / 100,
-          YClipPointEnd: img.height * prp(h * y + h, 'y') / 100 - img.height * prp(h * y, 'y') / 100,
-          drawPosX: w * x,
-          drawPosY: h * y,
-        }));
+        this.tiles.push(
+          new Tile(self.ctx, img, {
+            positionX: w * x,
+            positionY: h * y,
+            width: w,
+            height: h,
+            XClipPoint: (img.width * prp(w * x, 'x')) / 100,
+            XClipPointEnd:
+              (img.width * prp(w * x + w, 'x')) / 100 -
+              (img.width * prp(w * x, 'x')) / 100,
+            YClipPoint: (img.height * prp(h * y, 'y')) / 100,
+            YClipPointEnd:
+              (img.height * prp(h * y + h, 'y')) / 100 -
+              (img.height * prp(h * y, 'y')) / 100,
+            drawPosX: w * x,
+            drawPosY: h * y,
+          })
+        );
 
         // populate tiles map with original positions
         this.tilesMap.push(y * a[0] + x);
@@ -196,9 +202,9 @@ module.exports = {
   },
 
   /**
-     * @param {array} a
-     * shuffle tiles & tiles map
-     */
+   * @param {array} a
+   * shuffle tiles & tiles map
+   */
   shuffle(a) {
     for (let i = a.length - 1; i >= 0; i--) {
       const j = Math.floor(Math.random() * a.length);
@@ -218,8 +224,8 @@ module.exports = {
   },
 
   /**
-     * draw separation lines to canvas
-     */
+   * draw separation lines to canvas
+   */
   drawSeparations() {
     const a = this.tilesArr;
 
@@ -245,19 +251,25 @@ module.exports = {
   },
 
   /**
-     * return point relative position to canvas
-     * ex: canvas of 100px / 100px and a point in 40px / 66px yields 40 / 66
-     * @param {int} c
-     * @param {string} x : 'x' or 'y'
-     * @return {mixed}
-     */
+   * return point relative position to canvas
+   * ex: canvas of 100px / 100px and a point in 40px / 66px yields 40 / 66
+   * @param {int} c
+   * @param {string} x : 'x' or 'y'
+   * @return {mixed}
+   */
   pointRelativePosition(c, xoy) {
     let r;
     // calculate c relativeness
     switch (xoy) {
-      case 'x': r = c * 100 / this.canvas.width; break;
-      case 'y': r = c * 100 / this.canvas.height; break;
-      default: console.log('please specify point'); break;
+      case 'x':
+        r = (c * 100) / this.canvas.width;
+        break;
+      case 'y':
+        r = (c * 100) / this.canvas.height;
+        break;
+      default:
+        console.log('please specify point');
+        break;
     }
 
     return r;
@@ -275,55 +287,101 @@ module.exports = {
     this.state.mouseX = mousePos.x;
     this.state.mouseY = mousePos.y;
 
-    // attck mouse move event listener
-    this.canvas.addEventListener('mousemove', self.handleMouseMove.bind(this), false);
+    // attach mouse move event listener
+    this.canvas.addEventListener(
+      'mousemove',
+      self.handleMouseMove.bind(self),
+      false
+    );
 
-    // attck mouse move event listener
-    this.canvas.addEventListener('mouseup', self.handleMouseUp.bind(this), false);
+    // attach mouse move event listener
+    this.canvas.addEventListener(
+      'mouseup',
+      self.handleMouseUp.bind(self),
+      false
+    );
+
+    this.state.isMoving = true;
   },
 
   handleMouseMove(evt) {
     evt.stopPropagation();
 
-    console.log('moving..');
+    if (this.state.isMoving) {
+      console.log('moving..');
 
-    // cache selected tile index
-    const index = this.state.selectedTile;
+      // cache selected tile index
+      const index = this.state.selectedTile;
 
-    // cache selected tile
-    const tile = this.shuffledTiles[index];
+      // cache selected tile
+      const tile = this.shuffledTiles[index];
 
-    // get mouse pos
-    const mouseCoords = this.mouseCoords(evt);
+      // get mouse pos
+      const mouseCoords = this.mouseCoords(evt);
 
-    // calc mouse movement
-    const distX = mouseCoords.x - this.state.mouseX;
-    const distY = mouseCoords.y - this.state.mouseY;
+      // calc mouse movement
+      const distX = mouseCoords.x - this.state.mouseX;
+      const distY = mouseCoords.y - this.state.mouseY;
 
-    // set new mouse state
-    this.state.mouseX = mouseCoords.x;
-    this.state.mouseY = mouseCoords.y;
+      // set new mouse state
+      this.state.mouseX = mouseCoords.x;
+      this.state.mouseY = mouseCoords.y;
 
-    // move tile
-    tile.move(distX, distY);
+      // move tile
+      tile.move(distX, distY);
+    }
   },
 
   handleMouseUp(evt) {
     evt.stopPropagation();
 
-    console.log('stopped moving!');
+    if (this.state.isMoving) {
+      // cache this
+      const self = this;
 
-    // cache this
-    const self = this;
+      // cache selected tile index
+      const index = this.state.selectedTile;
 
-    // reset state
-    this.state.mouseX = undefined;
-    this.state.mouseY = undefined;
-    this.state.selectedTile = undefined;
+      // selected tile
+      const tile = this.shuffledTiles[index];
 
-    // detach events
-    this.canvas.removeEventListener('mousemove', self.handleMouseMove.bind(this), false);
-    this.canvas.removeEventListener('mouseup', self.handleMouseUp.bind(this), false);
+      // get target tile
+      const mousePos = this.mouseCoords(evt);
+      const targetTileIndex = this.tilesMap.indexOf(this.mouseOn(mousePos));
+      const targetTile = this.shuffledTiles[targetTileIndex];
+
+      // swap tiles
+      const tempTilePos = {
+        x: tile.dockedPosX,
+        y: tile.dockedPosY,
+      };
+      tile.dock(targetTile.dockedPosX, targetTile.dockedPosY);
+      targetTile.dock(tempTilePos.x, tempTilePos.y);
+
+      // save the swap to tiles map
+      const tempTileIndex = this.tilesMap[index];
+      this.tilesMap[index] = this.tilesMap[targetTileIndex];
+      this.tilesMap[targetTileIndex] = tempTileIndex;
+
+      // reset state
+      this.state.mouseX = undefined;
+      this.state.mouseY = undefined;
+      this.state.selectedTile = undefined;
+
+      // detach events
+      this.canvas.removeEventListener(
+        'mousemove',
+        self.handleMouseMove.bind(self),
+        false
+      );
+      this.canvas.removeEventListener(
+        'mouseup',
+        self.handleMouseUp.bind(self),
+        false
+      );
+
+      this.state.isMoving = false;
+    }
   },
 
   mouseCoords(evt) {
@@ -335,10 +393,10 @@ module.exports = {
   },
 
   /**
-     * return the number of tile which contain the mc
-     * @param {object} mc: mouse coordinates
-     * @return {integer}
-     */
+   * return the number of tile which contain the mc
+   * @param {object} mc: mouse coordinates
+   * @return {integer}
+   */
   mouseOn(mc) {
     // note: add 6 pxs to witdth and height
     // to make up for canvas border thickness
@@ -348,8 +406,8 @@ module.exports = {
     const rows = this.tilesArr[1];
 
     // calc x,y coordinates from mouse click.
-    const x = Math.floor(mc.x / w * cols);
-    const y = Math.floor(mc.y / h * rows);
+    const x = Math.floor((mc.x / w) * cols);
+    const y = Math.floor((mc.y / h) * rows);
 
     // calc tile index from x,y coordinates
     const index = y * cols + x;
@@ -372,7 +430,9 @@ module.exports = {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     // draw selected tile
-    if (index) { this.shuffledTiles[index].draw(); }
+    if (index) {
+      this.shuffledTiles[index].draw();
+    }
 
     // draw behind selected tile
     this.ctx.globalCompositeOperation = 'destination-over';
@@ -383,7 +443,11 @@ module.exports = {
     // draw tiles
     // eslint-disable-next-line array-callback-return
     this.shuffledTiles.map((tile, i) => {
-      if (index && index !== i) { tile.draw(); } else if (index === undefined) { tile.draw(); }
+      if (index && index !== i) {
+        tile.draw();
+      } else if (index === undefined) {
+        tile.draw();
+      }
     });
   },
 };

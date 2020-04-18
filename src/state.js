@@ -6,7 +6,6 @@
 import Screen from './screen';
 
 module.exports = {
-
   // game current level
   level: null,
 
@@ -35,7 +34,6 @@ module.exports = {
 
   // timer control
   Timer: {
-
     // level timer
     lvlTimer: 0,
 
@@ -56,5 +54,4 @@ module.exports = {
       }, 1000);
     },
   },
-
 };

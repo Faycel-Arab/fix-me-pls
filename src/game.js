@@ -13,18 +13,18 @@ import * as Canvas from './canvas';
 
 export default class Game {
   /**
-     * Creates an instance of game.
-     * @memberof game
-     */
+   * Creates an instance of game.
+   * @memberof game
+   */
   constructor() {
     this.home = document.querySelector('#home-game');
     this.game = document.querySelector('#game-game');
   }
 
   /**
-     * @memberof game
-     * @description starts the game
-     */
+   * @memberof game
+   * @description starts the game
+   */
   static start() {
     // set the game state
     State.set();

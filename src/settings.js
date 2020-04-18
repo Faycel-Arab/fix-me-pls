@@ -3,7 +3,6 @@
  * images, tile switching mode, blind mode ...
  */
 module.exports = {
-
   // images
   images: [
     'assets/levels-images/lvl1-image.jpg',

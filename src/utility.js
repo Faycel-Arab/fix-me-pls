@@ -3,10 +3,9 @@
  * helper functions
  */
 module.exports = {
-
   /**
-     * select a dom
-     */
+   * select a dom
+   */
 
   ele(ele) {
     // eslint-disable-next-line no-undef
@@ -14,44 +13,58 @@ module.exports = {
   },
 
   /**
-     * display provided dom element
-     */
+   * display provided dom element
+   */
   display(ele) {
     // make sure ele is a DOM element
-    if (this.isDOM(ele)) { ele.style.display = 'block'; } else { console.error('Error while trying to display a non DOM object'); }
+    if (this.isDOM(ele)) {
+      ele.style.display = 'block';
+    } else {
+      console.error('Error while trying to display a non DOM object');
+    }
   },
 
   /**
-     * hide provided dom element
-     */
+   * hide provided dom element
+   */
   hide(ele) {
     // make sure ele is a DOM element
     // we do this by checking if it has a display style property
-    if (ele && typeof ele.style.display === 'string') { ele.style.display = 'none'; } else { console.error('Error while trying to hide a non DOM object'); }
+    if (ele && typeof ele.style.display === 'string') {
+      ele.style.display = 'none';
+    } else {
+      console.error('Error while trying to hide a non DOM object');
+    }
   },
 
   /**
-     * check if a var is a DOM
-     */
+   * check if a var is a DOM
+   */
   isDOM(a) {
-    if (typeof a === 'object' && a.nodeType !== undefined) { return true; }
+    if (typeof a === 'object' && a.nodeType !== undefined) {
+      return true;
+    }
 
     return false;
   },
 
   /**
-     * @param {integer} a
-     */
+   * @param {integer} a
+   */
   makeTime(a) {
     // calculate minutes
     let mm = Math.floor(a / 60);
     // add a leading zero if a single digit
-    if (mm.toString().length === 1) { mm = `0${mm}`; }
+    if (mm.toString().length === 1) {
+      mm = `0${mm}`;
+    }
 
     // calculate seconds
     let ss = a % 60;
     // add a leading zero if a single digit
-    if (ss.toString().length === 1) { ss = `0${ss}`; }
+    if (ss.toString().length === 1) {
+      ss = `0${ss}`;
+    }
     const time = `${mm}:${ss}`;
 
     return time;
@@ -64,5 +77,4 @@ module.exports = {
       y: evt.clientY - rect.top,
     };
   },
-
 };

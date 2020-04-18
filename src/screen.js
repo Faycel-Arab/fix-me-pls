@@ -11,18 +11,18 @@ import Game from './game';
 
 export default class Screen {
   /**
-     * Creates an instance of screen.
-     * @memberof screen
-     */
+   * Creates an instance of screen.
+   * @memberof screen
+   */
   constructor() {
     this.home = document.querySelector('#home-screen');
     this.game = document.querySelector('#game-screen');
   }
 
   /**
-     * @memberof screen
-     * @description display home screen
-     */
+   * @memberof screen
+   * @description display home screen
+   */
   static showHome() {
     // hide game screen
     const game = H.ele('#game-screen');
@@ -34,9 +34,9 @@ export default class Screen {
   }
 
   /**
-     * @memberof screen
-     * @description display entry screen
-     */
+   * @memberof screen
+   * @description display entry screen
+   */
   static showEntry() {
     // display home first
     this.showHome();
@@ -56,9 +56,9 @@ export default class Screen {
   }
 
   /**
-     * @memberof screen
-     * @description display game screen
-     */
+   * @memberof screen
+   * @description display game screen
+   */
   static showGame() {
     // hide home screen
     const home = H.ele('#home-screen');
@@ -70,30 +70,30 @@ export default class Screen {
   }
 
   /**
-     * @memberof screen
-     * @param {integer} val
-     * @description level timer view update
-     */
+   * @memberof screen
+   * @param {integer} val
+   * @description level timer view update
+   */
   static updateLvlTimer(val) {
     const lvlTimer = H.ele('#timer');
     lvlTimer.innerHTML = `Level Timer : ${H.makeTime(val)}`;
   }
 
   /**
-     * @memberof screen
-     * @param {integer} val
-     * @description total timer view update
-     */
+   * @memberof screen
+   * @param {integer} val
+   * @description total timer view update
+   */
   static updateTotalTimer(val) {
     const totalTimer = H.ele('#total');
     totalTimer.innerHTML = `Game Timer : ${H.makeTime(val)}`;
   }
 
   /**
-     * @memberof screen
-     * @param {integer} val
-     * @description level number view update
-     */
+   * @memberof screen
+   * @param {integer} val
+   * @description level number view update
+   */
   static updateLvlNumber(val) {
     const lvlNumber = H.ele('#level-number');
     lvlNumber.innerHTML = `Level : ${val}`;
