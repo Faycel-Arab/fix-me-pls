@@ -78,13 +78,13 @@ module.exports = {
     // generate shuffled tiles
     const a = this.tiles.slice();
     this.shuffledTiles = this.shuffle(a);
-    console.log(this.shuffledTiles, this.tilesMap);
+    console.log(this.tiles, this.shuffledTiles, this.tilesMap);
 
     // append image to comparison block
     this.appendImg(img);
 
     // attach event listener
-    this.canvas.addEventListener('mousedown', self.handleMouseDown.bind(this));
+    this.canvas.addEventListener('mousedown', self.handleMouseDown.bind(self));
 
     // render canvas
     this.render();
@@ -161,7 +161,7 @@ module.exports = {
     // cache this for extra scope use
     const self = this;
 
-    // columns and rows array
+    // columns and rows array alias
     const a = this.tilesArr;
 
     // tiles width
@@ -202,7 +202,7 @@ module.exports = {
   },
 
   /**
-   * @param {array} a
+   * @param {array} a:
    * shuffle tiles & tiles map
    */
   shuffle(a) {
@@ -382,6 +382,14 @@ module.exports = {
 
       this.state.isMoving = false;
     }
+  },
+
+  /**
+   * checks the tiles map and checks if it's sorted
+   * @return {Boolean}
+   */
+  isCanvasSorted() {
+    return this.tilesMap.find((el, index) => el !== index) === undefined;
   },
 
   mouseCoords(evt) {
