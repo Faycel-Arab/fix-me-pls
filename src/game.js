@@ -45,6 +45,6 @@ export default class Game {
       State.Timer.startLvlTimer();
     };
 
-    image.src = Settings.images[State.level - 1];
+    image.src = Settings.images[0];
   }
 }

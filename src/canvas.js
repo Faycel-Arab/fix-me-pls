@@ -26,9 +26,6 @@ module.exports = {
   // tiles
   tiles: [],
 
-  // shuffled tiles
-  shuffledTiles: [],
-
   // tiles map
   // coordinates between tiles position before and after swap
   tilesMap: [],
@@ -76,9 +73,8 @@ module.exports = {
     this.generateTiles(img);
 
     // generate shuffled tiles
-    const a = this.tiles.slice();
-    this.shuffledTiles = this.shuffle(a);
-    console.log(this.tiles, this.shuffledTiles, this.tilesMap);
+    this.shuffle();
+    console.log(this.tiles, this.tilesMap);
 
     // append image to comparison block
     this.appendImg(img);
@@ -178,8 +174,6 @@ module.exports = {
       for (let x = 0; x < a[0]; x++) {
         this.tiles.push(
           new Tile(self.ctx, img, {
-            positionX: w * x,
-            positionY: h * y,
             width: w,
             height: h,
             XClipPoint: (img.width * prp(w * x, 'x')) / 100,
@@ -205,14 +199,9 @@ module.exports = {
    * @param {array} a:
    * shuffle tiles & tiles map
    */
-  shuffle(a) {
-    for (let i = a.length - 1; i >= 0; i--) {
-      const j = Math.floor(Math.random() * a.length);
-
-      // swap
-      const x = a[i];
-      a[i] = a[j];
-      a[j] = x;
+  shuffle() {
+    for (let i = this.tiles.length - 1; i >= 0; i--) {
+      const j = Math.floor(Math.random() * this.tiles.length);
 
       // swap tiles map
       const q = this.tilesMap[i];
@@ -220,7 +209,16 @@ module.exports = {
       this.tilesMap[j] = q;
     }
 
-    return a;
+    const copy = JSON.parse(JSON.stringify(this.tiles));
+
+    for (let i = 0; i < copy.length; i++) {
+      const j = this.tilesMap[i];
+      const x = copy[j].drawPosX;
+      const y = copy[j].drawPosY;
+      this.tiles[i].dock(x, y);
+
+      console.log(i, j, x, y);
+    }
   },
 
   /**
@@ -314,7 +312,7 @@ module.exports = {
       const index = this.state.selectedTile;
 
       // cache selected tile
-      const tile = this.shuffledTiles[index];
+      const tile = this.tiles[index];
 
       // get mouse pos
       const mouseCoords = this.mouseCoords(evt);
@@ -343,12 +341,12 @@ module.exports = {
       const index = this.state.selectedTile;
 
       // selected tile
-      const tile = this.shuffledTiles[index];
+      const tile = this.tiles[index];
 
       // get target tile
       const mousePos = this.mouseCoords(evt);
       const targetTileIndex = this.tilesMap.indexOf(this.mouseOn(mousePos));
-      const targetTile = this.shuffledTiles[targetTileIndex];
+      const targetTile = this.tiles[targetTileIndex];
 
       // swap tiles
       const tempTilePos = {
@@ -381,6 +379,8 @@ module.exports = {
       );
 
       this.state.isMoving = false;
+
+      console.log(this.tilesMap, this.tiles);
     }
   },
 
@@ -388,7 +388,7 @@ module.exports = {
    * checks the tiles map and checks if it's sorted
    * @return {Boolean}
    */
-  isCanvasSorted() {
+  isImageSorted() {
     return this.tilesMap.find((el, index) => el !== index) === undefined;
   },
 
@@ -425,21 +425,29 @@ module.exports = {
   },
 
   render() {
-    // cache selected tile
-    const index = this.state.selectedTile;
-
     const render = this.render.bind(this);
-
     // loop the render
     // eslint-disable-next-line no-undef
-    requestAnimationFrame(render);
+    if (this.isImageSorted()) {
+      this.action();
+      alert('yeah... :)');
+    } else {
+      requestAnimationFrame(render);
+    }
+
+    this.action();
+  },
+
+  action() {
+    // cache selected tile
+    const index = this.state.selectedTile;
 
     // reset canvas
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     // draw selected tile
     if (index) {
-      this.shuffledTiles[index].draw();
+      this.tiles[index].draw();
     }
 
     // draw behind selected tile
@@ -450,7 +458,7 @@ module.exports = {
 
     // draw tiles
     // eslint-disable-next-line array-callback-return
-    this.shuffledTiles.map((tile, i) => {
+    this.tiles.map((tile, i) => {
       if (index && index !== i) {
         tile.draw();
       } else if (index === undefined) {

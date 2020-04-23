@@ -29,5 +29,5 @@ module.exports = {
 
   // game selected difficulty
   // default: easy
-  selected_difficulty: 'easy',
+  selected_difficulty: 'hard',
 };

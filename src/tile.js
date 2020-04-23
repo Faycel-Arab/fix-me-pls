@@ -3,8 +3,6 @@
 export default class Tile {
   constructor(_2D_CTX, img, params) {
     // set tile params
-    this.positionX = params.positionX;
-    this.positionY = params.positionY;
     this.width = params.width;
     this.height = params.height;
     this.XClipPoint = params.XClipPoint;
@@ -21,6 +19,11 @@ export default class Tile {
     // set tile image for drawing and 2D Context
     this.img = img;
     this._2D_CTX = _2D_CTX;
+  }
+
+  editClipPoints(xs, ys) {
+    this.XClipPoint = xs;
+    this.YClipPoint = ys;
   }
 
   move(x, y) {
